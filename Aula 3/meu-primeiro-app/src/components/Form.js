@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Button, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View,Vibration, Button, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Result from './Result';
 
 export default function Form() {
@@ -8,19 +8,32 @@ export default function Form() {
   const [imc, setImc] = useState(0);
   const [msg, setMsg] = useState('Preencha os campos corretamente');
   const [msgbtn, setMsgBtn] = useState('Calcular IMC');
+  const [msgError, setMsgError] = useState('');
 
   function calcularImc() {
     setImc(peso / (altura * altura));
   }
 
   function validatorImc() {
+    
+    if (msgbtn === 'Reiniciar') {
+      setPeso(0);
+      setAltura(0);
+      setMsg('Preencha os campos corretamente');
+      setMsgBtn('Calcular IMC');
+      setImc(0);
+      return;
+    }
     if (peso > 0 && altura > 0) {
       calcularImc();
       setMsg('O resultado do seu IMC é = ');
-      setMsgBtn('Reiniciar');
-      setPeso(0);
-      setAltura(0);
+      setMsgBtn('Reiniciar');     
+      setMsgError('');
       return;
+    }
+    else {
+      Vibration.vibrate()
+      setMsgError('Campo Obrigatório');
     }
     setMsgBtn('Calcular IMC');
     setMsg('Preencha os campos corretamente');
@@ -32,6 +45,7 @@ export default function Form() {
       
 
       <Text style={styles.label}>Peso (kg):</Text>
+      <Text style={{ color: 'red' }}>{peso > 0  ? '' : 'Campo Obrigatório'  }</Text>
       <TextInput
         style={styles.input}
         placeholder="Ex: 70.5"
@@ -41,6 +55,7 @@ export default function Form() {
       />
 
       <Text style={styles.label}>Altura (m):</Text>
+      <Text style={{ color: 'red' }}>{msgError}</Text>
       <TextInput
         style={styles.input}
         placeholder="Ex: 1.75"

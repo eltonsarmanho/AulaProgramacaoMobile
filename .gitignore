@@ -1,0 +1,48 @@
+# Dependências
+/node_modules/
+npm-debug.log
+yarn.lock
+package-lock.json # Se cada "Aula" for um projeto independente com seu próprio package.json, você pode querer ignorar os lockfiles aqui. Se AULAMOBILE for o projeto principal, talvez queira versionar o lockfile principal.
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.pid
+*.seed
+*.out
+*.swp
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Pastas de Build (Comum em React Native)
+/android/build/
+/android/app/build/
+/ios/build/
+/web-build/
+*.apk
+*.aab
+
+# Expo (se estiver usando)
+.expo/
+dist/
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+
+# Arquivos de IDE / Editor
+.vscode/       # A menos que você queira compartilhar configurações específicas do VSCode com colaboradores
+# .idea/      # Para usuários do IntelliJ/WebStorm
+
+# Arquivos de ambiente (geralmente contêm chaves secretas)
+.env
+.env.*
+!.env.example  # É uma boa prática commitar um arquivo de exemplo .env.example
+
+# Outros
+coverage/

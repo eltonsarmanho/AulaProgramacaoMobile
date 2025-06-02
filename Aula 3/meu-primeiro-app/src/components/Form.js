@@ -15,7 +15,7 @@ export default function Form() {
   }
 
   function validatorImc() {
-    
+    //Apos clicar no botão de reiniciar, o usuário pode clicar novamente no botão de calcular IMC
     if (msgbtn === 'Reiniciar') {
       setPeso(0);
       setAltura(0);
@@ -24,6 +24,7 @@ export default function Form() {
       setImc(0);
       return;
     }
+    //Verifica se os campos foram preenchidos corretamente
     if (peso > 0 && altura > 0) {
       calcularImc();
       setMsg('O resultado do seu IMC é = ');
@@ -32,9 +33,11 @@ export default function Form() {
       return;
     }
     else {
+      ///Vibração para o usuário
       Vibration.vibrate()
       setMsgError('Campo Obrigatório');
     }
+    //Se os campos não forem preenchidos corretamente
     setMsgBtn('Calcular IMC');
     setMsg('Preencha os campos corretamente');
     setImc(0);

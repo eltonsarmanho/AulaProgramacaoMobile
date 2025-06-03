@@ -1,11 +1,13 @@
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
-import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useState, useRef } from 'react';
+import { Button, StyleSheet, Text, TouchableOpacity, View, Share, Alert } from 'react-native';
 
 export default function App() {
   const [facing, setFacing] = useState('back');
   const [permission, requestPermission] = useCameraPermissions();
+  const cameraRef = useRef(null);
 
+  
   if (!permission) {
     // Camera permissions are still loading.
     return <View />;
@@ -25,12 +27,45 @@ export default function App() {
     setFacing(current => (current === 'back' ? 'front' : 'back'));
   }
 
+  async function takePicture() {
+    if (cameraRef.current) {
+      try {
+        const photo = await cameraRef.current.takePictureAsync();
+        console.log('Photo taken:', photo);
+        if (photo && photo.uri) {
+          sharePicture(photo.uri);
+        } else {
+          Alert.alert("Erro", "Não foi possível capturar a foto.");
+        }
+      } catch (error) {
+        console.error('Failed to take picture:', error);
+        Alert.alert("Erro ao Capturar", "Ocorreu um erro ao tentar tirar a foto.");
+      }
+    }
+  }
+
+  async function sharePicture(uri) {
+    try {
+      await Share.share({
+        title: 'Olha minha foto!', // Opcional: título para algumas plataformas
+        message: 'Confira esta foto que acabei de tirar!', // Mensagem principal
+        url: uri, // A URI da imagem é o mais importante aqui
+      });
+    } catch (error) {
+      Alert.alert("Erro ao Compartilhar", "Ocorreu um erro ao tentar compartilhar a foto.");
+      console.error('Failed to share picture:', error);
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing}>
+      <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
             <Text style={styles.text}>Flip Camera</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={takePicture}>
+            <Text style={styles.text}>Tirar Foto</Text>
           </TouchableOpacity>
         </View>
       </CameraView>
@@ -56,6 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     margin: 64,
   },
+  
   button: {
     flex: 1,
     alignSelf: 'flex-end',

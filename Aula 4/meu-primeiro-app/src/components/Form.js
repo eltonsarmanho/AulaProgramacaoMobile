@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View,Vibration, Button, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View,Vibration, Button,FlatList, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Result from './Result';
 
 export default function Form() {
@@ -9,9 +9,13 @@ export default function Form() {
   const [msg, setMsg] = useState('Preencha os campos corretamente');
   const [msgbtn, setMsgBtn] = useState('Calcular IMC');
   const [msgError, setMsgError] = useState('');
+  const [imcList, setImcList] = useState([]);
 
   function calcularImc() {
-    setImc(peso / (altura * altura));
+    let  imc = peso / (altura * altura);
+    setImcList([...imcList, imc.toFixed(2)]);
+    console.log(imcList);
+    setImc(imc);
   }
 
   function validatorImc() {
@@ -73,7 +77,15 @@ export default function Form() {
 
       <View style={styles.resultBox}>
         <Result valor={imc} msg={msg} />
-      </View>
+      </View>     
+
+        <FlatList // Nao Coloque FlatList dentro de um View
+          showsVerticalScrollIndicator={true}
+          contentContainerStyle={styles.listBox}//Estilo do scrollview do flatlist
+          data={imcList}
+          renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+          keyExtractor={(item, index) => index.toString()}
+        />
     </View>
   );
 }
@@ -98,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     marginTop: 10,
-  },
+  },  
   input: {
     width: '100%',
     padding: 10,
@@ -128,5 +140,41 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     alignItems: 'center',
+    shadowColor: '#000', // Shadow for depth, similar to the calculator's cards
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1, // Slight shadow
+    shadowRadius: 5, // Soft shadow
   },
+  listBox: {    
+    color: '#fff',
+    marginTop: 20,
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF', // A light background for the list container, similar to the calculator's background
+    borderRadius: 15, // Rounded corners for the container
+    padding: 20, // Inner padding to give content some space
+    marginHorizontal: 15, // Horizontal margin to prevent it from touching the screen edges
+    marginTop: 20, // Top margin for spacing from other elements
+    shadowColor: '#000', // Shadow for depth, similar to the calculator's cards
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1, // Slight shadow
+    shadowRadius: 5, // Soft shadow
+    elevation: 3, // Elevation for Android
+  },
+  item: {
+    backgroundColor: '#A0C3FF',
+    borderRadius: 5,
+    padding: 5,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    textAlign: 'center',
+    fontSize: 16,
+    shadowColor: '#000', // Shadow for depth, similar to the calculator's cards
+  }
 });

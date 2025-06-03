@@ -1,8 +1,6 @@
 import React from 'react';  
 import { Text,Share,StyleSheet, View,TouchableOpacity } from 'react-native';
 
-
-
 export default function Result(props) {
     //Peguei direto da documentação do react native
     const onShare = async () => {    
@@ -18,11 +16,13 @@ export default function Result(props) {
            {props.msg} {props.valor ? props.valor.toFixed(2) : ''}
              </Text>
         </View>
+        {props.valor !== null && props.valor > 0 ?
         <View style={styles.shareBox}>
             <TouchableOpacity  onPress={onShare}>
                 <Text>Compartilhar</Text>
             </TouchableOpacity>
-         </View>
+         </View>:null
+         }
          
         </View>
        

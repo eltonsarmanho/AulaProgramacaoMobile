@@ -9,11 +9,6 @@ import { useNavigation } from '@react-navigation/native'; // Import useNavigatio
 export default function pageInfo() { // Use functional component without prop
   const navigation = useNavigation(); // Get navigation using hook
 
-  
-  const irParaContato = () => {
-    // 'PageContato' deve corresponder ao nome da rota definido no seu navegador.
-    navigation.navigate('pageContato');
-  };
 
   return (
     <View style={styles.container}>
@@ -21,6 +16,12 @@ export default function pageInfo() { // Use functional component without prop
       <Button style={styles.ButtonStyle}      
         onPress={() => navigation.navigate('pageContato',{nome: 'Elton Sarmanho', documento: 'xxx.xxx.xxx-xx'})}>
              Elton Sarmanho</Button>
+       <Button style={styles.ButtonStyle}      
+        onPress={() => navigation.navigate('pageContato',{nome: 'Kalel Sarmanho', documento: 'yyy.xxx.xxx-xx'})}>
+             Kalel Sarmanho</Button>
+        <Button style={styles.ButtonStyle}      
+        onPress={() => navigation.navigate('pageContato',{nome: 'Kron BJJ', documento: 'www.xxx.xxx-xx'})}>
+             Kron BJJ</Button>
       
     </View>
   );

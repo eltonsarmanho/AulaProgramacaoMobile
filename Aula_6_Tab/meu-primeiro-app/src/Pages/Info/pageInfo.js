@@ -9,7 +9,7 @@ export default function pageInfo() { // Use functional component without prop
 
   const irParaContato = () => {
     // 'PageContato' deve corresponder ao nome da rota definido no seu navegador.
-    navigation.navigate('pageContato');
+    navigation.navigate('Contato');
   };
 
   return (
